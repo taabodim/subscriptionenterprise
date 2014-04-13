@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ajax="http://www.mulesoft.org/schema/mule/ajax"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core"
+	version="CE-3.3.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ajax http://www.mulesoft.org/schema/mule/ajax/current/mule-ajax.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd 
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd 
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/2.0/mule-mongo.xsd ">
+	<flow name="getSubscriptionSOI" doc:name="getSubscriptionSOI" processingStrategy="synchronous">
+		<ajax:inbound-endpoint channel="/getSubscriptionSOI"
+			responseTimeout="1000000" connector-ref="server" doc:name="getSubscriptionSOI" />
+		<flow-ref name="getSubscriptionSOIFlow" doc:name="call getSubscriptionSOIFlow" />
+	</flow>
+	
+	<flow name="getSubscriptionSOIFlow" doc:name="getSubscriptionSOIFlow" processingStrategy="synchronous">
+      	<set-variable variableName="originalPayload" value="#[payload]" doc:name="keep payload"/>
+        <set-variable variableName="Name" value="#[json:Name]" doc:name="set Name Variable"/>
+        <set-variable variableName="SOIPath" value="#[json:SOIPath]" doc:name="set SOIPath to variable"/>
+        <expression-component doc:name="replaces . by 3 _ on the SOIPath">flowVars['_SOIPath'] = flowVars['SOIPath'].replace(".","___");</expression-component>
+        <component doc:name="soilListMaker">
+            <spring-object bean="soilListMaker"/>
+        </component>
+ 
+        <logger message="SOI doc is #[payload]" level="INFO" doc:name="Logger"/>
+	</flow>
+	<flow name="getSubscriptionSOIHttp" doc:name="getSubscriptionSOIHttp" processingStrategy="synchronous">
+		<http:inbound-endpoint exchange-pattern="request-response"
+			host="localhost" port="8081" path="subscription/getSubscriptionSOI"
+			doc:name="HTTP" />
+        <set-variable variableName="ReturnEverything" value="yes" doc:name="ReturnEverything"/>
+        <flow-ref name="getSubscriptionSOIFlow" doc:name="call getSubscriptionSOIFlow" />
+        <object-to-string-transformer doc:name="Object to String"/>
+	</flow>
+</mule>

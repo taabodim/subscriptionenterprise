@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry exported="true" kind="con" path="MULE_RUNTIME"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="src" path="src/test/resources"/>
+	<classpathentry kind="con" path="MULE_LIB/Mongo DB"/>
+	<classpathentry kind="con" path="MULE_LIB/Jsonvalidator"/>
+	<classpathentry kind="lib" path="lib/ezmorph-1.0.3.jar"/>
+	<classpathentry kind="lib" path="lib/json-lib-2.3-jdk15.jar"/>
+	<classpathentry kind="lib" path="lib/mule-devkit-annotations-3.3.2.jar"/>
+	<classpathentry kind="lib" path="lib/tibjms.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/dev.properties"/>
+	<classpathentry kind="lib" path="src/main/resources/prod.properties"/>
+	<classpathentry kind="lib" path="src/main/resources/sit.properties"/>
+	<classpathentry kind="lib" path="src/main/resources/uat.properties"/>
+	<classpathentry kind="lib" path="src/main/resources/mule-app.properties"/>
+	<classpathentry kind="lib" path="lib/plugins-1.1.8r3-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="lib/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-1.0.jar"/>
+	<classpathentry kind="con" path="MULE_LIB/Jsonsmart"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="0-globalelementsflow">
+    <global-unknown description="false" index="1" entity-id="global-unknown#1">
+        <content>&lt;management:jmx-default-config xmlns:management=&quot;http://www.mulesoft.org/schema/mule/management&quot; port=&quot;${jmx.port}&quot; registerMx4jAdapter=&quot;false&quot;&gt;
+		&lt;management:credentials&gt;
+			&lt;spring:entry xmlns:spring=&quot;http://www.springframework.org/schema/beans&quot; key=&quot;${jmx.user}&quot; value=&quot;${jmx.password}&quot;/&gt;
+		&lt;/management:credentials&gt;
+	&lt;/management:jmx-default-config&gt;</content>
+    </global-unknown>
+    <global-element name="Bean" type="http://www.springframework.org/schema/beans/bean" entity-id="Bean#1">
+        <properties>
+            <property name="id" value="sslpwdInjectiossl"/>
+            <property name="name"/>
+            <property name="class" value="com.citi.isg.notifications.lifecycle.Start"/>
+            <property name="parent"/>
+            <property name="scope"/>
+            <property name="children"/>
+            <property name="auxiliary;index" value="5"/>
+            <property name="auxiliary;wrapIn" value="4"/>
+            <property name="auxiliary;index" value="5"/>
+            <property name="auxiliary;wrapIn" value="4"/>
+            <property name="abstract"/>
+            <property name="lazy-init"/>
+            <property name="autowire"/>
+            <property name="depends-on"/>
+            <property name="autowire-candidate"/>
+            <property name="primary"/>
+            <property name="init-method"/>
+            <property name="destroy-method"/>
+            <property name="factory-method"/>
+            <property name="factory-bean"/>
+            <property name="auxiliary;index" value="5"/>
+            <property name="auxiliary;wrapIn" value="4"/>
+            <property name="auxiliary;index" value="5"/>
+            <property name="auxiliary;wrapIn" value="4"/>
+            <property name="auxiliary;index" value="5"/>
+            <property name="auxiliary;wrapIn" value="4"/>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;0">
+                <property name="name" value="sSLPassword"/>
+                <property name="value" value="soa123"/>
+                <property name="auxiliary;wrapIn" value="6"/>
+                <property name="auxiliary;index" value="6"/>
+            </property-collection>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;1">
+                <property name="name" value="appHome"/>
+                <property name="value" value="${app.home}"/>
+                <property name="auxiliary;wrapIn" value="7"/>
+                <property name="auxiliary;index" value="7"/>
+            </property-collection>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;2">
+                <property name="name" value="fileUploadFolder"/>
+                <property name="value" value="${file.upload.folder}"/>
+                <property name="auxiliary;wrapIn" value="8"/>
+                <property name="auxiliary;index" value="8"/>
+            </property-collection>
+        </properties>
+    </global-element>
+    <global-element name="Ajax" type="org.mule.tooling.ui.modules.core.global.ajaxConnector" entity-id="Ajax#1">
+        <properties>
+            <property name="name" value="server"/>
+            <property name="serverUrl" value="http://0.0.0.0:8181/subscription"/>
+            <property name="resourceBase" value="${app.home}/docroot"/>
+            <property name="disableReplyTo"/>
+            <property name="auxiliary;index" value="9"/>
+            <property name="logLevel"/>
+            <property name="refsThreshold"/>
+            <property name="jsonCommented" value="true"/>
+            <property name="auxiliary;index" value="9"/>
+            <property name="auxiliary;index" value="9"/>
+            <property name="timeout"/>
+            <property name="interval"/>
+            <property name="maxInterval"/>
+            <property name="multiFrameInterval"/>
+            <property name="auxiliary;index" value="9"/>
+            <property name="auxiliary;index" value="9"/>
+            <property name="auxiliary;index" value="9"/>
+            <property name="auxiliary;index" value="9"/>
+            <property name="auxiliary;index" value="9"/>
+            <property name="auxiliary;index" value="9"/>
+            <property name="auxiliary;index" value="9"/>
+            <property name="auxiliary;index" value="9"/>
+        </properties>
+    </global-element>
+    <global-element name="File" type="org.mule.tooling.ui.modules.core.global.fileConnector" entity-id="File#1">
+        <properties>
+            <property name="name" value="FileUploadForSOIConnector"/>
+            <property name="auxiliary;index" value="10"/>
+            <property name="outputPattern"/>
+            <property name="auxiliary;index" value="10"/>
+            <property name="writeToDirectory"/>
+            <property name="readFromDirectory" value="${file.upload.folder}"/>
+            <property name="workDirectory"/>
+            <property name="workFileNamePattern"/>
+            <property name="auxiliary;index" value="10"/>
+            <property name="autoDelete" value="true"/>
+            <property name="outputAppend"/>
+            <property name="streaming" value="false"/>
+            <property name="recursive"/>
+            <property name="auxiliary;index" value="10"/>
+            <property name="auxiliary;index" value="10"/>
+            <property name="dispatcherPoolFactory-ref"/>
+            <property name="auxiliary;index" value="10"/>
+            <property name="dynamicNotification"/>
+            <property name="validateConnections" value="true"/>
+            <property name="serialiseObjects"/>
+            <property name="auxiliary;index" value="10"/>
+            <property name="pollingFrequency" value="3000"/>
+            <property name="fileAge"/>
+            <property name="auxiliary;index" value="10"/>
+            <property name="moveToPattern" value="#[header:originalFilename].backup"/>
+            <property name="moveToDirectory" value="${file.upload.folder}/backup"/>
+            <property name="auxiliary;index" value="10"/>
+            <property name="auxiliary;index" value="10"/>
+            <property name="comparator"/>
+            <property name="reverseOrder"/>
+            <property name="auxiliary;index" value="10"/>
+            <property name="auxiliary;index" value="10"/>
+            <property name="auxiliary;index" value="10"/>
+            <property name="auxiliary;index" value="10"/>
+            <property name="auxiliary;index" value="10"/>
+        </properties>
+    </global-element>
+    <global-element name="Bean" type="http://www.springframework.org/schema/beans/bean" entity-id="Bean#2">
+        <properties>
+            <property name="id" value="mongoConnector"/>
+            <property name="name" value="MongoConnector"/>
+            <property name="class" value="com.citi.isg.notifications.lifecycle.MongoConnector"/>
+            <property name="parent"/>
+            <property name="scope"/>
+            <property name="children"/>
+            <property name="auxiliary;index" value="11"/>
+            <property name="auxiliary;index" value="11"/>
+            <property name="abstract"/>
+            <property name="lazy-init" value="false"/>
+            <property name="autowire"/>
+            <property name="depends-on"/>
+            <property name="autowire-candidate"/>
+            <property name="primary"/>
+            <property name="init-method" value="init"/>
+            <property name="destroy-method"/>
+            <property name="factory-method"/>
+            <property name="factory-bean"/>
+            <property name="auxiliary;index" value="11"/>
+            <property name="auxiliary;index" value="11"/>
+            <property name="auxiliary;index" value="11"/>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;0">
+                <property name="name" value="subscriptionMongoHost"/>
+                <property name="value" value="${mongodb.host}"/>
+                <property name="auxiliary;wrapIn" value="12"/>
+                <property name="auxiliary;index" value="12"/>
+            </property-collection>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;1">
+                <property name="name" value="subscriptionMongoPort"/>
+                <property name="value" value="${mongodb.host.port}"/>
+                <property name="auxiliary;wrapIn" value="13"/>
+                <property name="auxiliary;index" value="13"/>
+            </property-collection>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;2">
+                <property name="name" value="subscriptionDatabaseName"/>
+                <property name="value" value="${mongodb.subscriptions.database}"/>
+                <property name="auxiliary;wrapIn" value="14"/>
+                <property name="auxiliary;index" value="14"/>
+            </property-collection>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;3">
+                <property name="name" value="subscriptionCollectionName"/>
+                <property name="value" value="${mongodb.subscriptions.collection}"/>
+                <property name="auxiliary;wrapIn" value="15"/>
+                <property name="auxiliary;index" value="15"/>
+            </property-collection>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;4">
+                <property name="name" value="subscriptionUserName"/>
+                <property name="value" value="${mongodb.username}"/>
+                <property name="auxiliary;wrapIn" value="16"/>
+                <property name="auxiliary;index" value="16"/>
+            </property-collection>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;5">
+                <property name="name" value="subscriptionPassword"/>
+                <property name="value" value="${mongodb.password}"/>
+                <property name="auxiliary;wrapIn" value="17"/>
+                <property name="auxiliary;index" value="17"/>
+            </property-collection>
+        </properties>
+    </global-element>
+    <global-element name="Bean" type="http://www.springframework.org/schema/beans/bean" entity-id="Bean#3">
+        <properties>
+            <property name="id" value="soilListMaker"/>
+            <property name="name" value="soilListMaker"/>
+            <property name="class" value="com.citi.isg.notification.soi.SOIListMaker"/>
+            <property name="parent"/>
+            <property name="scope"/>
+            <property name="children"/>
+            <property name="auxiliary;index" value="18"/>
+            <property name="auxiliary;index" value="18"/>
+            <property name="abstract"/>
+            <property name="lazy-init"/>
+            <property name="autowire"/>
+            <property name="depends-on"/>
+            <property name="autowire-candidate"/>
+            <property name="primary"/>
+            <property name="init-method"/>
+            <property name="destroy-method"/>
+            <property name="factory-method"/>
+            <property name="factory-bean"/>
+            <property name="auxiliary;index" value="18"/>
+            <property name="auxiliary;index" value="18"/>
+            <property name="auxiliary;index" value="18"/>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;0">
+                <property name="ref" value="mongoConnector"/>
+                <property name="name" value="mongoConnector"/>
+                <property name="auxiliary;wrapIn" value="19"/>
+                <property name="auxiliary;index" value="19"/>
+            </property-collection>
+        </properties>
+    </global-element>
+    <global-element name="Bean" type="http://www.springframework.org/schema/beans/bean" entity-id="Bean#4">
+        <properties>
+            <property name="id" value="saveSOIComponent"/>
+            <property name="name" value="saveSOIComponent"/>
+            <property name="class" value="com.citi.isg.notification.soi.SaveSOIComponent"/>
+            <property name="parent"/>
+            <property name="scope"/>
+            <property name="children"/>
+            <property name="auxiliary;index" value="20"/>
+            <property name="auxiliary;index" value="20"/>
+            <property name="abstract"/>
+            <property name="lazy-init"/>
+            <property name="autowire"/>
+            <property name="depends-on"/>
+            <property name="autowire-candidate"/>
+            <property name="primary"/>
+            <property name="init-method"/>
+            <property name="destroy-method"/>
+            <property name="factory-method"/>
+            <property name="factory-bean"/>
+            <property name="auxiliary;index" value="20"/>
+            <property name="auxiliary;index" value="20"/>
+            <property name="auxiliary;index" value="20"/>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;0">
+                <property name="ref" value="subscriptionDao"/>
+                <property name="name" value="subscriptionDao"/>
+                <property name="auxiliary;wrapIn" value="21"/>
+                <property name="auxiliary;index" value="21"/>
+            </property-collection>
+        </properties>
+    </global-element>
+    <global-element name="Bean" type="http://www.springframework.org/schema/beans/bean" entity-id="Bean#5">
+        <properties>
+            <property name="id" value="subscriptionDao"/>
+            <property name="name" value="subscriptionDao"/>
+            <property name="class" value="com.citi.isg.notification.soi.SubscriptionDao"/>
+            <property name="parent"/>
+            <property name="scope"/>
+            <property name="children"/>
+            <property name="auxiliary;index" value="22"/>
+            <property name="auxiliary;index" value="22"/>
+            <property name="abstract"/>
+            <property name="lazy-init"/>
+            <property name="autowire"/>
+            <property name="depends-on"/>
+            <property name="autowire-candidate"/>
+            <property name="primary"/>
+            <property name="init-method"/>
+            <property name="destroy-method"/>
+            <property name="factory-method"/>
+            <property name="factory-bean"/>
+            <property name="auxiliary;index" value="22"/>
+            <property name="auxiliary;index" value="22"/>
+            <property name="auxiliary;index" value="22"/>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;0">
+                <property name="ref" value="mongoConnector"/>
+                <property name="name" value="mongoConnector"/>
+                <property name="auxiliary;wrapIn" value="23"/>
+                <property name="auxiliary;index" value="23"/>
+            </property-collection>
+        </properties>
+    </global-element>
+    <global-element name="Bean" type="http://www.springframework.org/schema/beans/bean" entity-id="Bean#6">
+        <properties>
+            <property name="id" value="getSubscriptionByName"/>
+            <property name="name" value="getSubscriptionByName"/>
+            <property name="class" value="com.citi.isg.subscriptions.mongo.GetSubscriptionByName"/>
+            <property name="parent"/>
+            <property name="scope"/>
+            <property name="children"/>
+            <property name="auxiliary;index" value="24"/>
+            <property name="auxiliary;index" value="24"/>
+            <property name="abstract"/>
+            <property name="lazy-init"/>
+            <property name="autowire"/>
+            <property name="depends-on"/>
+            <property name="autowire-candidate"/>
+            <property name="primary"/>
+            <property name="init-method"/>
+            <property name="destroy-method"/>
+            <property name="factory-method"/>
+            <property name="factory-bean"/>
+            <property name="auxiliary;index" value="24"/>
+            <property name="auxiliary;index" value="24"/>
+            <property name="auxiliary;index" value="24"/>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;0">
+                <property name="ref" value="subscriptionDao"/>
+                <property name="name" value="subscriptionDao"/>
+                <property name="auxiliary;wrapIn" value="25"/>
+                <property name="auxiliary;index" value="25"/>
+            </property-collection>
+        </properties>
+    </global-element>
+    <global-element name="Bean" type="http://www.springframework.org/schema/beans/bean" entity-id="Bean#7">
+        <properties>
+            <property name="id" value="deleteSubscriptionByName"/>
+            <property name="name" value="deleteSubscriptionByName"/>
+            <property name="class" value="com.citi.isg.subscriptions.mongo.DeleteSubscriptionByName"/>
+            <property name="parent"/>
+            <property name="scope"/>
+            <property name="children"/>
+            <property name="auxiliary;index" value="26"/>
+            <property name="auxiliary;index" value="26"/>
+            <property name="abstract"/>
+            <property name="lazy-init"/>
+            <property name="autowire"/>
+            <property name="depends-on"/>
+            <property name="autowire-candidate"/>
+            <property name="primary"/>
+            <property name="init-method"/>
+            <property name="destroy-method"/>
+            <property name="factory-method"/>
+            <property name="factory-bean"/>
+            <property name="auxiliary;index" value="26"/>
+            <property name="auxiliary;index" value="26"/>
+            <property name="auxiliary;index" value="26"/>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;0">
+                <property name="ref" value="subscriptionDao"/>
+                <property name="name" value="subscriptionDao"/>
+                <property name="auxiliary;wrapIn" value="27"/>
+                <property name="auxiliary;index" value="27"/>
+            </property-collection>
+        </properties>
+    </global-element>
+    <global-element name="Bean" type="http://www.springframework.org/schema/beans/bean" entity-id="Bean#8">
+        <properties>
+            <property name="id" value="RemoveSubscriptionSOIs"/>
+            <property name="name" value="RemoveSubscriptionSOIs"/>
+            <property name="class" value="com.citi.isg.subscriptions.mongo.RemoveSubscriptionSOIs"/>
+            <property name="parent"/>
+            <property name="scope"/>
+            <property name="children"/>
+            <property name="auxiliary;index" value="28"/>
+            <property name="auxiliary;index" value="28"/>
+            <property name="abstract"/>
+            <property name="lazy-init"/>
+            <property name="autowire"/>
+            <property name="depends-on"/>
+            <property name="autowire-candidate"/>
+            <property name="primary"/>
+            <property name="init-method"/>
+            <property name="destroy-method"/>
+            <property name="factory-method"/>
+            <property name="factory-bean"/>
+            <property name="auxiliary;index" value="28"/>
+            <property name="auxiliary;index" value="28"/>
+            <property name="auxiliary;index" value="28"/>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;0">
+                <property name="ref" value="subscriptionDao"/>
+                <property name="name" value="subscriptionDao"/>
+                <property name="auxiliary;wrapIn" value="29"/>
+                <property name="auxiliary;index" value="29"/>
+            </property-collection>
+        </properties>
+    </global-element>
+    <global-element name="Bean" type="http://www.springframework.org/schema/beans/bean" entity-id="Bean#9">
+        <properties>
+            <property name="id" value="getAllSubscriptions"/>
+            <property name="name" value="getAllSubscriptions"/>
+            <property name="class" value="com.citi.isg.subscriptions.mongo.GetAllSubscriptions"/>
+            <property name="parent"/>
+            <property name="scope"/>
+            <property name="children"/>
+            <property name="auxiliary;index" value="30"/>
+            <property name="auxiliary;index" value="30"/>
+            <property name="abstract"/>
+            <property name="lazy-init"/>
+            <property name="autowire"/>
+            <property name="depends-on"/>
+            <property name="autowire-candidate"/>
+            <property name="primary"/>
+            <property name="init-method"/>
+            <property name="destroy-method"/>
+            <property name="factory-method"/>
+            <property name="factory-bean"/>
+            <property name="auxiliary;index" value="30"/>
+            <property name="auxiliary;index" value="30"/>
+            <property name="auxiliary;index" value="30"/>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;0">
+                <property name="ref" value="subscriptionDao"/>
+                <property name="name" value="subscriptionDao"/>
+                <property name="auxiliary;wrapIn" value="31"/>
+                <property name="auxiliary;index" value="31"/>
+            </property-collection>
+        </properties>
+    </global-element>
+    <global-element name="Bean" type="http://www.springframework.org/schema/beans/bean" entity-id="Bean#10">
+        <properties>
+            <property name="id" value="saveSubscriptionInMongo"/>
+            <property name="name" value="saveSubscriptionInMongo"/>
+            <property name="class" value="com.citi.isg.subscriptions.mongo.SaveSubscriptionInMongo"/>
+            <property name="parent"/>
+            <property name="scope"/>
+            <property name="children"/>
+            <property name="auxiliary;index" value="32"/>
+            <property name="auxiliary;index" value="32"/>
+            <property name="abstract"/>
+            <property name="lazy-init"/>
+            <property name="autowire"/>
+            <property name="depends-on"/>
+            <property name="autowire-candidate"/>
+            <property name="primary"/>
+            <property name="init-method"/>
+            <property name="destroy-method"/>
+            <property name="factory-method"/>
+            <property name="factory-bean"/>
+            <property name="auxiliary;index" value="32"/>
+            <property name="auxiliary;index" value="32"/>
+            <property name="auxiliary;index" value="32"/>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;0">
+                <property name="ref" value="subscriptionDao"/>
+                <property name="name" value="subscriptionDao"/>
+                <property name="auxiliary;wrapIn" value="33"/>
+                <property name="auxiliary;index" value="33"/>
+            </property-collection>
+        </properties>
+    </global-element>
+    <global-element name="Bean" type="http://www.springframework.org/schema/beans/bean" entity-id="Bean#11">
+        <properties>
+            <property name="id" value="RemoveExistingSOIsFromSOICollection"/>
+            <property name="name" value="RemoveExistingSOIsFromSOICollection"/>
+            <property name="class" value="com.citi.isg.subscriptions.mongo.RemoveExistingSOIsFromSOICollection"/>
+            <property name="parent"/>
+            <property name="scope"/>
+            <property name="children"/>
+            <property name="auxiliary;index" value="34"/>
+            <property name="auxiliary;index" value="34"/>
+            <property name="abstract"/>
+            <property name="lazy-init"/>
+            <property name="autowire"/>
+            <property name="depends-on"/>
+            <property name="autowire-candidate"/>
+            <property name="primary"/>
+            <property name="init-method"/>
+            <property name="destroy-method"/>
+            <property name="factory-method"/>
+            <property name="factory-bean"/>
+            <property name="auxiliary;index" value="34"/>
+            <property name="auxiliary;index" value="34"/>
+            <property name="auxiliary;index" value="34"/>
+            <property-collection name="@http://www.springframework.org/schema/beans/property;0">
+                <property name="ref" value="subscriptionDao"/>
+                <property name="name" value="subscriptionDao"/>
+                <property name="auxiliary;wrapIn" value="35"/>
+                <property name="auxiliary;index" value="35"/>
+            </property-collection>
+        </properties>
+    </global-element>
+</mule-configuration>

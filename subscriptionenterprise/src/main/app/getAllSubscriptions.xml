@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ajax="http://www.mulesoft.org/schema/mule/ajax"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core"
+	version="CE-3.3.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ajax http://www.mulesoft.org/schema/mule/ajax/current/mule-ajax.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd 
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd 
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/2.0/mule-mongo.xsd ">
+	<flow name="getAllSubscriptionsAjaxFlow" doc:name="getAllSubscriptionsAjaxFlow">
+		<ajax:inbound-endpoint channel="/getAllSubscriptions"
+			responseTimeout="10000" connector-ref="server" doc:name="getAllSubscriptionsAjaxFlow" />
+		<flow-ref name="getAllSubscriptionsFlow" doc:name="Flow Reference" />
+	</flow>
+	<flow name="getAllSubscriptionsFlow" doc:name="getAllSubscriptionsFlow" processingStrategy="synchronous">
+     
+<!--		<mongo:find-objects config-ref="Mongo_DB_subscriptions"-->
+<!--			collection="${mongodb.subscriptions.collection}" doc:name="Mongo DB" />-->
+        <component doc:name="getAllSubscriptions">
+            <spring-object bean="getAllSubscriptions"/>
+        </component>
+	</flow>
+	<flow name="getAllSubscriptionsHttp" doc:name="getAllSubscriptionsHttp" processingStrategy="synchronous">
+		<http:inbound-endpoint exchange-pattern="request-response"
+			host="localhost" port="8081" path="subscription/getAllSubscriptions"
+			doc:name="HTTP" />
+		<flow-ref name="getAllSubscriptionsFlow" doc:name="Flow Reference" />
+		<object-to-string-transformer doc:name="Object to String" />
+	</flow>
+</mule>

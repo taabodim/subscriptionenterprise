@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+
+<head>
+
+<title>Subscription Services</title>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.22.custom.min.js"></script>
+<script type="text/javascript" src="js/json2.js"></script>
+<script type="text/javascript" src="js/purl.js"></script>
+<script type="text/javascript">
+	var timeToWait = 5;
+	var originalText = "You will be redirected in " + timeToWait + " seconds.";
+
+	$(document).ready(
+			function() {
+				setTimeout("window.location.href='http://"+window.location.hostname+":8181/subscription/'", 5000);
+				window.setInterval(refreshSecond, 1000);
+
+				$("#time").html(
+						"<p ><a id=\"link\" href=\"http://"+window.location.hostname+":8181/subscription/\">"
+								+ originalText + "</a></p> <br /> <br />");
+
+				var fullyReply = $.url().param('replyMsg');
+				var toRemove = '{replyMsg=';
+				var modifiedReply = fullyReply.replace(toRemove, '');
+				var modifiedReplyAgain = modifiedReply.replace('}', '');
+
+				$("#replyMsgDiv").append(
+						"<p ><a id=\"link\" href=\"http://"+window.location.hostname+":8181/subscription/\">"
+								+ modifiedReplyAgain + "</a></p>");
+
+			});
+
+	function refreshSecond() {
+		timeToWait--;
+		var text = "You will be redirected in " + timeToWait + " seconds.";
+		$("#time").html(
+				"<p ><a id=\"link\" href=\"http://"+window.location.hostname+":8181/subscription/\">" + text
+						+ "</a></p><br /> <br />");
+
+	}
+</script>
+<head>
+
+<style type="text/css">
+.mycss {
+	font-weight: bold;
+	font-style: italic;
+	color: #000000;
+	background-color: #FFF4D9;
+	border: 5px solid #b5a759;
+	letter-spacing: 0pt;
+	word-spacing: -2pt;
+	font-size: 24px;
+	text-align: left;
+	font-family: arial, helvetica, sans-serif;
+	line-height: 1;
+	margin: 0px;
+	padding: 0px;
+}
+
+.pagecss {
+	
+}
+</style>
+
+</head>
+<body class="pagecss">
+<br />
+<br />
+<br />
+<br />
+
+
+<div id="BigDiv" class="mycss" >
+<div id="replyMsgDiv"></div>
+<div id="time"></div>
+</div>
+
+
+
+</body>
+</html>

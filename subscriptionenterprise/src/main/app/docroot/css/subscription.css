@@ -1,0 +1,257 @@
+body {
+	color: #333333;
+	background-color: #FFFFFF;
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 12px;
+	padding: 10px;
+}
+
+h3 {
+	font-size: 18px;
+	margin-bottom: 10px;
+}
+
+#tabs a {
+	color: #004276;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+#tabs a:hover {
+	color: #333333;
+	text-decoration: underline;
+	font-weight: normal;
+}
+
+.box1 {
+
+}
+
+.box2 {
+	
+}
+
+.box3 {
+
+}
+
+.box4 {
+	
+}
+
+.box5 {
+	
+}
+
+.pagecss {
+
+}
+
+.textCss {
+
+	text-decoration: underline;
+	font-style: italic;
+	color: #000000;
+	letter-spacing: 0pt;
+	word-spacing: -2pt;
+	font-size: 16px;
+	text-align: left;
+	font-family: arial, helvetica, sans-serif;
+	line-height: 1;
+	margin: 0px;
+	padding: 0px;
+}
+
+#allsubscriptions table,#allsubscriptionssoi table {
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	border: 1px solid #CCCCCC;
+	border-collapse: collapse;
+	-webkit-box-shadow: 0px 0px 5px 5px rgba(125, 125, 125, 0.5);
+	box-shadow: 0px 0px 5px 5px rgba(125, 125, 125, 0.5);
+	margin: 10px 0;
+	position: relative;
+}
+
+#allsubscriptions table th,#allsubscriptions table td,#allsubscriptionssoi table th,#allsubscriptionssoi table td
+	{
+	padding: 8px;
+	text-align: left;
+	border: 1px solid #CCCCCC;
+	border-collapse: collapse;
+	background-color: #FAFAFA;
+}
+
+#allsubscriptions table th,#allsubscriptionssoi table th {
+	font-weight: bold;
+	background-color: #CECECE;
+}
+
+.main-title {
+	position: relative;
+	margin-bottom: 30px;
+}
+
+.box1,.box2,.box3,.box4 {
+	padding: 20px;
+}
+
+
+
+button.minimal-margin {
+	margin: 20px 0;
+	position: relaive;
+	display: block;
+}
+
+button.minimal {
+	padding: 4px;
+}
+
+.center {
+	margin: 0 auto !important;
+	text-align: center !important;
+}
+
+textarea {
+	border-radius: 4px;
+	border: 1px solid #CCCCCC;
+	border-collapse: collapse;
+	-webkit-box-shadow: 0px 0px 5px 5px rgba(125, 125, 125, 0.5);
+	box-shadow: 0px 0px 5px 5px rgba(125, 125, 125, 0.5);
+}
+
+.json_mod {
+	position: relative;
+	margin-bottom: 10px;
+	display: block;
+}
+
+#subscription_details {
+	position: relative;
+	margin-bottom: 10px;
+	padding: 10px;
+	border-radius: 4px;
+	border: 1px solid #CCCCCC;
+	background-color: #e7e7e7;
+}
+
+#subscription_details input {
+	border: 1px solid #CCCCCC;
+}
+
+.formField,.innerField {
+	position: relative;
+	margin-bottom: 10px;
+	padding: 10px;
+	border-radius: 4px;
+	border: 1px solid #CCCCCC;
+	background-color: #efefef;
+}
+
+.formField div {
+	margin: 4px;
+}
+
+.objectLabel {
+	font-weight: bold;
+}
+
+.label {
+	color: #000000;
+	font-weight: bold;
+	position: relative;
+	display: inline-block;
+}
+
+#subscription-area,#subscription-form,#subscriptionsoi-area,#subscriptionsoi-form
+	{
+	display: none;
+}
+
+.current-subscription,.current-soi-subscription {
+	font-size: 18px;
+	font-weight: bold;
+	color: #004276;
+	position: relative;
+	margin-bottom: 10px;
+}
+
+.classname {
+	-moz-box-shadow: inset 0px 1px 0px 5px #bbdaf7;
+	-webkit-box-shadow: inset 0px 1px 0px 5px #bbdaf7;
+	box-shadow: inset 0px 1px 0px 5px #bbdaf7;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #79bbff
+		), color-stop(1, #378de5) );
+	background: -moz-linear-gradient(center top, #79bbff 5%, #378de5 100%);
+	filter: progid :   DXImageTransform.Microsoft.gradient (   startColorstr
+		= 
+		 '#79bbff', endColorstr =   '#378de5' );
+	background-color: #79bbff;
+	-webkit-border-top-left-radius: 20px;
+	-moz-border-radius-topleft: 20px;
+	border-top-left-radius: 20px;
+	-webkit-border-top-right-radius: 20px;
+	-moz-border-radius-topright: 20px;
+	border-top-right-radius: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-bottomright: 20px;
+	border-bottom-right-radius: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	border-bottom-left-radius: 20px;
+	text-indent: -2px;
+	border: 2px solid #84bbf3;
+	display: inline-block;
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 15px;
+	font-weight: bold;
+	font-style: normal;
+	height: 50px;
+	line-height: 50px;
+	width: 100px;
+	text-decoration: none;
+	text-align: center;
+	text-shadow: 1px 1px 0px #528ecc;
+}
+
+.classname:hover {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #378de5
+		), color-stop(1, #79bbff) );
+	background: -moz-linear-gradient(center top, #378de5 5%, #79bbff 100%);
+	filter: progid :   DXImageTransform.Microsoft.gradient (   startColorstr
+		= 
+		 '#378de5', endColorstr =   '#79bbff' );
+	background-color: #378de5;
+}
+
+.classname:active {
+	position: relative;
+	top: 1px;
+}
+
+label span input {
+	z-index: 999;
+	line-height: 0;
+	font-size: 50px;
+	position: absolute;
+	top: -2px;
+	left: -700px;
+	opacity: 0;
+	filter: alpha(opacity =     0);
+	-ms-filter: "alpha(opacity=0)";
+	cursor: pointer;
+	_cursor: hand;
+	margin: 0;
+	padding: 0;
+}
+
+.uploadTable {
+	border-width: 1px;
+	border-collapse: separate;
+	width: 40px;
+	border-spacing: 50px;
+	margin-bottom: 20px;
+}
+

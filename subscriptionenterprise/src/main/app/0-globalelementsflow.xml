@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
+	xmlns:jsonvalidator="http://www.mulesoft.org/schema/mule/jsonvalidator"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ajax="http://www.mulesoft.org/schema/mule/ajax"
+	xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:management="http://www.mulesoft.org/schema/mule/management"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core"
+	version="CE-3.3.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ajax http://www.mulesoft.org/schema/mule/ajax/current/mule-ajax.xsd 
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd 
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/2.0/mule-mongo.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd 
+http://www.mulesoft.org/schema/mule/jsonvalidator http://www.mulesoft.org/schema/mule/jsonvalidator/1.0-SNAPSHOT/mule-jsonvalidator.xsd 
+http://www.mulesoft.org/schema/mule/json validator 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/management http://www.mulesoft.org/schema/mule/management/3.3/mule-management.xsd ">
+
+	<management:jmx-default-config port="${jmx.port}"
+		registerMx4jAdapter="false">
+		<management:credentials>
+			<spring:entry key="${jmx.user}" value="${jmx.password}" />
+		</management:credentials>
+	</management:jmx-default-config>
+
+	<spring:beans>
+		<spring:bean id="sslpwdInjectiossl"
+			class="com.citi.isg.notifications.lifecycle.Start">
+			<spring:property name="sSLPassword" value="soa123" />
+			<spring:property name="appHome" value="${app.home}" />
+			<spring:property name="fileUploadFolder" value="${file.upload.folder}" />
+		</spring:bean>
+	</spring:beans>
+
+<!--	 <mongo:config name="Mongo_DB_subscriptions" username="${mongodb.username}" -->
+<!--	 password="${mongodb.password}" database="subscriptions" host="${mongodb.host}" -->
+<!--	 connectionsPerHost="20" maxWaitTime="100000" port="${mongodb.host.port}" -->
+<!--	 doc:name="Mongo DB" autoConnectRetry="true"> -->
+<!--	 <reconnect-forever /> -->
+<!--	 </mongo:config> -->
+
+	<ajax:connector name="server" serverUrl="http://0.0.0.0:8181/subscription"
+		resourceBase="${app.home}/docroot" doc:name="Ajax" jsonCommented="true" />
+		
+	<file:connector name="FileUploadForSOIConnector"
+		readFromDirectory="${file.upload.folder}" autoDelete="true" streaming="false"
+		validateConnections="true" pollingFrequency="3000"
+		moveToPattern="#[header:originalFilename].backup" moveToDirectory="${file.upload.folder}/backup"
+		doc:name="File" />
+
+
+	<spring:bean id="mongoConnector"
+		class="com.citi.isg.notifications.lifecycle.MongoConnector" lazy-init="false"
+		name="MongoConnector" init-method="init">
+
+		<spring:property name="subscriptionMongoHost" value="${mongodb.host}" />
+		<spring:property name="subscriptionMongoPort" value="${mongodb.host.port}" />
+		<spring:property name="subscriptionDatabaseName"
+			value="${mongodb.subscriptions.database}" />
+		<spring:property name="subscriptionCollectionName"
+			value="${mongodb.subscriptions.collection}" />
+
+		<spring:property name="subscriptionUserName" value="${mongodb.username}" />
+
+		<spring:property name="subscriptionPassword" value="${mongodb.password}" />
+	</spring:bean>
+
+	<spring:bean id="soilListMaker" name="soilListMaker"
+		class="com.citi.isg.notification.soi.SOIListMaker">
+		<spring:property name="mongoConnector" ref="mongoConnector" />
+	</spring:bean>
+
+	<spring:bean id="saveSOIComponent" name="saveSOIComponent"
+		class="com.citi.isg.notification.soi.SaveSOIComponent">
+		<spring:property name="subscriptionDao" ref="subscriptionDao" />
+	</spring:bean>
+
+	<spring:bean id="subscriptionDao" name="subscriptionDao"
+		class="com.citi.isg.notification.soi.SubscriptionDao">
+		<spring:property name="mongoConnector" ref="mongoConnector" />
+	</spring:bean>
+
+	<spring:bean id="getSubscriptionByName" name="getSubscriptionByName"
+		class="com.citi.isg.subscriptions.mongo.GetSubscriptionByName">
+		<spring:property name="subscriptionDao" ref="subscriptionDao" />
+	</spring:bean>
+
+	<spring:bean id="deleteSubscriptionByName" name="deleteSubscriptionByName"
+		class="com.citi.isg.subscriptions.mongo.DeleteSubscriptionByName">
+		<spring:property name="subscriptionDao" ref="subscriptionDao" />
+	</spring:bean>
+
+	<spring:bean id="RemoveSubscriptionSOIs" name="RemoveSubscriptionSOIs"
+		class="com.citi.isg.subscriptions.mongo.RemoveSubscriptionSOIs">
+		<spring:property name="subscriptionDao" ref="subscriptionDao" />
+	</spring:bean>
+
+
+	<spring:bean id="getAllSubscriptions" name="getAllSubscriptions"
+		class="com.citi.isg.subscriptions.mongo.GetAllSubscriptions">
+		<spring:property name="subscriptionDao" ref="subscriptionDao" />
+	</spring:bean>
+
+
+	<spring:bean id="saveSubscriptionInMongo" name="saveSubscriptionInMongo"
+		class="com.citi.isg.subscriptions.mongo.SaveSubscriptionInMongo">
+		<spring:property name="subscriptionDao" ref="subscriptionDao" />
+	</spring:bean>
+
+	<spring:bean id="RemoveExistingSOIsFromSOICollection" name="RemoveExistingSOIsFromSOICollection"
+		class="com.citi.isg.subscriptions.mongo.RemoveExistingSOIsFromSOICollection">
+		<spring:property name="subscriptionDao" ref="subscriptionDao" />
+	</spring:bean>
+
+</mule>

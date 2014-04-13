@@ -1,0 +1,111 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "subscription",
+    "description": "schema for a subscription entry",
+    "type": "object",
+    "properties": {
+        "Name": {
+            "type": "string"
+        },
+        "IsActive": {
+            "type": "boolean"
+        },
+        "DestinationType": {
+            "enum": [
+                "EMS",
+                "HTTP_PUSH"
+            ]
+        },
+        "MessageFilter": {
+            "type": "object",
+            "properties": {
+                "FilterQuery": {
+                    "type": "string"
+                },
+                "FilterQueryDelta": {
+                    "type": "string"
+                },
+                "FieldSelection": {
+                    "type": "array"
+                },
+                "DataSource": {
+                    "enum": [
+                        "smc",
+                        "amc"
+                    ]
+                },
+                "DataType": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "enum": [
+                            "basket",
+                            "cds",
+                            "cmo",
+                            "commodity",
+                            "corp",
+                            "currency",
+                            "custom",
+                            "equity",
+                            "forward",
+                            "future",
+                            "govt",
+                            "index",
+                            "issuer",
+                            "loan",
+                            "mbs",
+                            "money-mkt",
+                            "muni",
+                            "option",
+                            "pfd",
+                            "spread",
+                            "warrant",
+                            "account",
+                            "mg",
+                            "mcle"
+                        ]
+                    },
+                    "uniqueItems": true
+                }
+            },
+            "required": [
+                "FilterQuery",
+                "FilterQueryDelta",
+                "FieldSelection",
+                "DataSource",
+                "DataType"
+            ]
+        },
+        "MessageFormatter": {
+            "type": "object",
+            "properties": {
+                "TypeName": {
+                    "enum": [
+                        "bson",
+                        "json",
+                        "xml"
+                    ]
+                },
+                "ContentOptions": {
+                    "enum": [
+                        "FullConcepts",
+                        "DeltaConcepts"
+                    ]
+                }
+            },
+            "required": [
+                "TypeName",
+                "ContentOptions"
+            ]
+        }
+    },
+    "required": [
+        "Name",
+        "IsActive",
+        "DestinationType",
+        "MessageFilter",
+        "MessageFormatter",
+        "SOICollections",
+        "ContactEmails"
+    ]
+}

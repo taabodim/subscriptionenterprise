@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ajax="http://www.mulesoft.org/schema/mule/ajax" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core" version="CE-3.3.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ajax http://www.mulesoft.org/schema/mule/ajax/current/mule-ajax.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd 
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd 
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/2.0/mule-mongo.xsd ">
+    <flow name="getSubscriptionByNameFlowAjax" doc:name="getSubscriptionByNameFlowAjax">
+        <ajax:inbound-endpoint channel="/getSubscriptionByName" responseTimeout="10000" connector-ref="server" doc:name="getSubscriptionByName"/>
+        <flow-ref name="getSubscriptionByNameFlow" doc:name="call getSubscriptionByNameFlow"/>
+    </flow>
+    <flow name="getSubscriptionByNameFlow" doc:name="getSubscriptionByNameFlow">
+<!--        <mongo:find-objects config-ref="Mongo_DB_subscriptions" collection="${mongodb.subscriptions.collection}" query-ref="#[string:{'Name': '#[json:Name]'}]" doc:name="Mongo DB"/>-->
+        <component doc:name="getSubscriptionByName">
+            <spring-object bean="getSubscriptionByName"/>
+        </component>
+    </flow>
+    <flow name="getSubscriptionByNameHttp" doc:name="getSubscriptionByNameHttp">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="subscription/getSubscriptionByName" doc:name="HTTP"/>
+        <flow-ref name="getSubscriptionByNameFlow" doc:name="call getSubscriptionByNameFlow"/>
+        <choice doc:name="Choice">
+            <when expression="message.payload is org.mule.transport.NullPayload">
+                <processor-chain>
+                    <logger message="not tranforming because subscription was not found." level="INFO" doc:name="Logger"/>
+                </processor-chain>
+            </when>
+            <otherwise>
+                <processor-chain>
+                    <object-to-string-transformer doc:name="Object to String"/>
+                </processor-chain>
+            </otherwise>
+        </choice>
+    </flow>
+</mule>

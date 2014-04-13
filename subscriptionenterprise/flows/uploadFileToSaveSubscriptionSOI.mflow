@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="subscriptionenterprise">
+    <flow SubFlow="false" name="uploadFileTosaveSubscriptionSOI" entity-id="5eb4f9c1-78a2-4bc1-9ccd-e5ab3fa9e21c">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property name="auxiliary;index" value="1"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property name="auxiliary;index" value="1"/>
+            <property name="auxiliary;index" value="1"/>
+            <property name="auxiliary;index" value="1"/>
+        </properties>
+        <description>it will load a file with SOI format into a SOI subscription.
+
+Subscription must exist.</description>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">
+            <endpoint direction="Inbound" message-exchange-pattern="OneWay" name="read file with SOI subscription" type="http://www.mulesoft.org/schema/mule/file/endpoint" entity-id="File#1">
+                <properties>
+                    <property name="exchange-pattern" value="one-way"/>
+                    <property name="path" value="${file.upload.folder}"/>
+                    <property name="outputPattern"/>
+                    <property name="moveToPattern" value="#[header:originalFilename]_#[function:datestamp:dd-MM-yy]_#[function:systime].backup"/>
+                    <property name="moveToDirectory" value="${file.upload.folder}/backup"/>
+                    <property name="auxiliary;index" value="2"/>
+                    <property name="pollingFrequency" value="${file.upload.pooling.frequency.in.ms}"/>
+                    <property name="fileAge"/>
+                    <property name="auxiliary;index" value="2"/>
+                    <property name="auxiliary;index" value="2"/>
+                    <property name="auxiliary;index" value="2"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="auxiliary;index" value="2"/>
+                    <property name="address"/>
+                    <property name="responseTimeout" value="10000"/>
+                    <property name="encoding"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="mimeType"/>
+                    <property name="auxiliary;index" value="2"/>
+                    <property name="comparator"/>
+                    <property name="reverseOrder"/>
+                    <property name="auxiliary;index" value="2"/>
+                    <property name="auxiliary;index" value="2"/>
+                    <property name="connector-ref" value="FileUploadForSOIConnector"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="auxiliary;index" value="2"/>
+                    <property name="auxiliary;index" value="2"/>
+                    <property name="auxiliary;index" value="2"/>
+                </properties>
+            </endpoint>
+            <pattern name="Byte Array to Object" type="http://www.mulesoft.org/schema/mule/core/byte-array-to-object-transformer" entity-id="Byte Array to Object#1">
+                <properties>
+                    <property name="returnClass"/>
+                    <property name="ignoreBadInput"/>
+                    <property name="encoding"/>
+                    <property name="auxiliary;index" value="3"/>
+                    <property name="mimeType"/>
+                    <property name="auxiliary;index" value="3"/>
+                    <property name="auxiliary;index" value="3"/>
+                    <property name="auxiliary;index" value="3"/>
+                </properties>
+            </pattern>
+            <pattern name="call save SOI" type="http://www.mulesoft.org/schema/mule/core/flow-ref" entity-id="Flow Reference#1">
+                <properties>
+                    <property name="name" value="saveSubscriptionSOIFlow"/>
+                    <property name="auxiliary;index" value="4"/>
+                    <property name="auxiliary;index" value="4"/>
+                    <property name="auxiliary;index" value="4"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="HTTPUploadFormFlow" entity-id="afbd3887-0eb9-4134-8551-b33b065dc087">
+        <properties>
+            <property name="processingStrategy2" value="synchronous"/>
+            <property name="processingStrategy" value="synchronous"/>
+            <property name="auxiliary;index" value="5"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property name="auxiliary;index" value="5"/>
+            <property name="auxiliary;index" value="5"/>
+            <property name="auxiliary;index" value="5"/>
+        </properties>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#2">
+            <endpoint direction="Inbound" message-exchange-pattern="OneWay" name="HTTP" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#1">
+                <properties>
+                    <property name="exchange-pattern" value="one-way"/>
+                    <property name="exchange-pattern" value="request-response"/>
+                    <property name="auxiliary;index" value="6"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/http/endpoint"/>
+                    <property name="auxiliary;index" value="6"/>
+                    <property name="httpLabel"/>
+                    <property name="host" value="localhost"/>
+                    <property name="port" value="8081"/>
+                    <property name="path" value="uploadFile"/>
+                    <property name="method"/>
+                    <property name="auxiliary;index" value="6"/>
+                    <property name="auxiliary;index" value="6"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="auxiliary;index" value="6"/>
+                    <property name="address"/>
+                    <property name="encoding"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="mimeType"/>
+                    <property name="responseTimeout"/>
+                    <property name="followRedirects"/>
+                    <property name="auxiliary;index" value="6"/>
+                    <property name="auxiliary;index" value="6"/>
+                    <property name="auxiliary;index" value="6"/>
+                    <property name="connector-ref"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="responseTransformer-refs"/>
+                    <property name="auxiliary;index" value="6"/>
+                    <property name="auxiliary;index" value="6"/>
+                    <property name="user"/>
+                    <property name="password"/>
+                    <property name="auxiliary;index" value="6"/>
+                    <property name="contentType"/>
+                    <property name="keep-alive"/>
+                    <property name="auxiliary;index" value="6"/>
+                    <property name="auxiliary;index" value="6"/>
+                    <property name="auxiliary;index" value="6"/>
+                </properties>
+            </endpoint>
+            <pattern name="FileExtractor" type="http://www.mulesoft.org/schema/mule/core/component" entity-id="Java#1">
+                <properties>
+                    <property name="auxiliary;index" value="7"/>
+                    <property name="auxiliary;index" value="7"/>
+                    <property name="auxiliary;index" value="7"/>
+                    <property name="class" value="com.citi.isg.notification.soi.FileExtractor"/>
+                    <property name="auxiliary;index" value="7"/>
+                    <property name="auxiliary;index" value="7"/>
+                    <property name="auxiliary;index" value="7"/>
+                </properties>
+            </pattern>
+            <pattern name="call save SOI" type="http://www.mulesoft.org/schema/mule/core/flow-ref" entity-id="Flow Reference#2">
+                <properties>
+                    <property name="name" value="saveSubscriptionSOIFlow"/>
+                    <property name="auxiliary;index" value="8"/>
+                    <property name="auxiliary;index" value="8"/>
+                    <property name="auxiliary;index" value="8"/>
+                </properties>
+            </pattern>
+            <pattern name="HTTP Response Builder" type="http://www.mulesoft.org/schema/mule/http/response-builder" entity-id="HTTP Response Builder#1">
+                <properties>
+                    <property name="cookiesLabel" value=""/>
+                    <property name="status" value="302"/>
+                    <property name="value" value=""/>
+                    <property name="contentType" value="text/html"/>
+                    <property name="auxiliary;index" value="9"/>
+                    <property name="updated"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/http/cache-control;895852433"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/http/expires;583992314">
+                        <property name="value" value=""/>
+                    </property-collection>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/http/location;1158554608">
+                        <property name="value" value="http://#[variable:hostnameHeader]:8181/subscription/successful_upload.html?replyMsg=#[headers:replyMsg]"/>
+                        <property name="auxiliary;index" value="10"/>
+                    </property-collection>
+                </properties>
+                <description></description>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="uploadSubscriptionSOI" entity-id="6716a0fe-a3a2-4ead-90c2-f4f59ba53f9c">
+        <properties>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property name="auxiliary;index" value="11"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property name="auxiliary;index" value="11"/>
+            <property name="auxiliary;index" value="11"/>
+            <property name="auxiliary;index" value="11"/>
+        </properties>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#3">
+            <endpoint direction="Inbound" message-exchange-pattern="OneWay" name="uploadSubscriptionSOI" type="org.mule.tooling.ui.modules.core.ajax.AJAX" entity-id="Ajax#1">
+                <properties>
+                    <property name="exchange-pattern" value="one-way"/>
+                    <property name="channel" value="/uploadSubscriptionSOI"/>
+                    <property name="auxiliary;index" value="12"/>
+                    <property name="auxiliary;index" value="12"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="auxiliary;index" value="12"/>
+                    <property name="responseTimeout" value="10000"/>
+                    <property name="encoding"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="mimeType"/>
+                    <property name="address"/>
+                    <property name="cacheMessages"/>
+                    <property name="messageCacheSize"/>
+                    <property name="auxiliary;index" value="12"/>
+                    <property name="auxiliary;index" value="12"/>
+                    <property name="connector-ref"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="auxiliary;index" value="12"/>
+                    <property name="auxiliary;index" value="12"/>
+                    <property name="auxiliary;index" value="12"/>
+                </properties>
+            </endpoint>
+            <pattern name="FileExtractor" type="http://www.mulesoft.org/schema/mule/core/component" entity-id="Java#2">
+                <properties>
+                    <property name="auxiliary;index" value="13"/>
+                    <property name="auxiliary;index" value="13"/>
+                    <property name="auxiliary;index" value="13"/>
+                    <property name="class" value="com.citi.isg.notification.soi.FileExtractor"/>
+                    <property name="auxiliary;index" value="13"/>
+                    <property name="auxiliary;index" value="13"/>
+                    <property name="auxiliary;index" value="13"/>
+                </properties>
+            </pattern>
+            <pattern name="call save SOI" type="http://www.mulesoft.org/schema/mule/core/flow-ref" entity-id="Flow Reference#3">
+                <properties>
+                    <property name="name" value="saveSubscriptionSOIFlow"/>
+                    <property name="auxiliary;index" value="14"/>
+                    <property name="auxiliary;index" value="14"/>
+                    <property name="auxiliary;index" value="14"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <description></description>
+</mule-configuration>

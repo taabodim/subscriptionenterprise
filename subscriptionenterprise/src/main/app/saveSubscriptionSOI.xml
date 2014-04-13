@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:jsonsmart="http://www.mulesoft.org/schema/mule/jsonsmart"
+	xmlns:jsonvalidator="http://www.mulesoft.org/schema/mule/jsonvalidator"
+	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ajax="http://www.mulesoft.org/schema/mule/ajax" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core"
+	version="CE-3.3.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ajax http://www.mulesoft.org/schema/mule/ajax/current/mule-ajax.xsd 
+http://www.mulesoft.org/schema/mule/jsonsmart http://www.mulesoft.org/schema/mule/jsonsmart/1.0-SNAPSHOT/mule-jsonsmart.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+http://www.mulesoft.org/schema/mule/jsonvalidator http://www.mulesoft.org/schema/mule/jsonvalidator/1.0-SNAPSHOT/mule-jsonvalidator.xsd 
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd 
+http://www.mulesoft.org/schema/mule/json smart 
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd 
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/2.0/mule-mongo.xsd ">
+	<jsonsmart:config name="JsonsmartSOI" doc:name="Jsonsmart" />
+	<flow name="saveSubscriptionSOI" doc:name="saveSubscriptionSOI"
+		processingStrategy="synchronous">
+		<ajax:inbound-endpoint channel="/saveSubscriptionSOI"
+			responseTimeout="10000" connector-ref="server" doc:name="saveSubscriptionSOI" />
+		<flow-ref name="saveSubscriptionSOIFlow" doc:name="call save SOI flow" />
+	</flow>
+	
+		<flow name="saveSubscriptionSOIFlow" doc:name="saveSubscriptionSOIFlow"
+		processingStrategy="synchronous">
+        <component class="com.citi.isg.notifications.lifecycle.JSONValidator" doc:name="JSONValidator"/>
+        <component doc:name="saveSOIComponent">
+            <spring-object bean="saveSOIComponent"/>
+        </component>
+	
+	</flow>
+	
+	<flow name="saveSubscriptionSOIHttp" doc:name="saveSubscriptionSOIHttp"
+		processingStrategy="synchronous">
+		<http:inbound-endpoint exchange-pattern="request-response"
+			host="localhost" port="8081" path="subscription/saveSubscriptionSOI"
+			doc:name="HTTP" />
+		<object-to-string-transformer doc:name="Object to String" />
+		<flow-ref name="saveSubscriptionSOIFlow" doc:name="call saveSubscriptionSOIFlow" />
+		<object-to-string-transformer doc:name="Object to String" />
+	</flow>
+</mule>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+
+<project default="deploy" basedir=".">
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml" />
+
+	<target name="loadProps">
+		<!-- loading properties here......-->
+		<loadproperties>
+			<file file="src/main/resources/${TargetEnviornment}.properties" />
+		</loadproperties>
+		<echo message="The value of property TargetEnviornment is ${TargetEnviornment}, host=${host1}, username=${username} password=${password}" />
+	</target>
+
+
+	<target name="deploy" depends="loadProps">
+		<property name="ssTempFolder" value="/opt/gicapods/ss-deployment" />
+		<if>
+			<equals arg1="${TargetEnviornment}" arg2="prod" />
+			<then>
+				<!-- deploying to prod1 server-->
+				<antcall target="deployToServer">
+					<param name="myHost" value="${host1}" />
+				</antcall>
+				<!-- deploying to prod2 server-->
+				<antcall target="deployToServer">
+					<param name="myHost" value="${host2}" />
+				</antcall>
+				<!-- deploying to prod3 server-->
+				<antcall target="deployToServer">
+					<param name="myHost" value="${host3}" />
+				</antcall>
+				<!-- deploying to prod4 server-->
+				<antcall target="deployToServer">
+					<param name="myHost" value="${host4}" />
+				</antcall>
+
+
+			</then>
+
+			<elseif>
+				<equals arg1="${TargetEnviornment}" arg2="uat" />
+				<then>
+					<!-- deploying to uat server-->
+					<antcall target="deployToServer">
+						<param name="myHost" value="${host1}" />
+					</antcall>
+
+				</then>
+			</elseif>
+			<elseif>
+				<equals arg1="${TargetEnviornment}" arg2="sit" />
+				<then>
+					<!-- deploying to sit server-->
+
+					<antcall target="deployToServer">
+						<param name="myHost" value="${host1}" />
+					</antcall>
+				</then>
+			</elseif>
+
+			<elseif>
+				<!-- deploying to dev server-->
+
+				<equals arg1="${TargetEnviornment}" arg2="dev" />
+				<then>
+
+					<antcall target="deployToServer">
+						<param name="myHost" value="${host1}" />
+					</antcall>
+
+				</then>
+			</elseif>
+			<else>
+				<!-- if you want to deploy to servers other than dev,sit,uat,prod -->
+
+				<scp todir="${username}:${password}@${host1}:/tmp/subscriptionDeploymentFolder" trust="true" failonerror="false" verbose="true">
+					<fileset file="zipBox/*.zip" />
+				</scp>
+				<sshexec failonerror="false" trust="true" host="${host1}" username="${username}" password="${password}" command="rm -rf ${mule.apps.folder}/*subscriptionenterprise* " />
+				<sshexec failonerror="false" trust="true" host="${host1}" username="${username}" password="${password}" command="cp /tmp/subscriptionDeploymentFolder/*.zip ${mule.apps.folder} -R" />
+
+			</else>
+		</if>
+	</target>
+
+
+
+
+	<target name="deployToServer">
+		<echo message="myHost is ${myHost}" />
+
+		<trycatch>
+			<try>
+				<var name="loginFailed" value="false" />
+
+				<sshexec failonerror="false" trust="true" host="${myHost}" username="${username}" password="${password}" command="rm -rf ${ssTempFolder}" />
+			</try>
+			<catch>
+
+				<echo message="login failed....." />
+
+				<var name="loginFailed" value="true" />
+			</catch>
+			<finally>
+				<if>
+					<equals arg1="${loginFailed}" arg2="false" />
+					<then>
+						<if>
+							<equals arg1="${TargetEnviornment}" arg2="dev" />
+							<then>
+								<!-- call the special function for deploying to dev-->
+								<antcall target="continuteTheDeploymentToServerToDevServer">
+									<param name="myHost" value="${myHost}" />
+								</antcall>
+							</then>
+							<else>
+								<antcall target="continuteTheDeploymentToServer">
+									<param name="myHost" value="${myHost}" />
+								</antcall>
+							</else>
+						</if>
+					</then>
+				</if>
+
+			</finally>
+		</trycatch>
+
+	</target>
+
+	<target name="continuteTheDeploymentToServer">
+
+		<!-- deleting the old apps, and copying the new ones in the neutral folder -->
+
+		<sshexec failonerror="false" trust="true" host="${myHost}" username="${username}" password="${password}" command="rm -rf ${ssTempFolder}/*subscriptionenterprise*" />
+		<sshexec failonerror="false" trust="true" host="${myHost}" username="${username}" password="${password}" command="mkdir -p ${ssTempFolder}" />
+
+		<scp todir="${username}:${password}@${myHost}:${ssTempFolder}" trust="true" failonerror="false" verbose="true">
+			<fileset file="zipBox/*.zip" />
+		</scp>
+
+
+	</target>
+
+	<target name="continuteTheDeploymentToServerToDevServer">
+
+		<!-- deleting the old apps, and copying the new ones in the remote host -->
+		<sshexec failonerror="false" trust="true" host="${myHost}" username="${username}" password="${password}" command="rm -rf /tmp/subscriptionDeploymentFolder/*subscriptionenterprise*" />
+		<sshexec failonerror="false" trust="true" host="${myHost}" username="${username}" password="${password}" command="mkdir  /tmp/subscriptionDeploymentFolder " />
+
+		<scp todir="${username}:${password}@${myHost}:/tmp/subscriptionDeploymentFolder" trust="true" failonerror="false" verbose="true">
+			<fileset file="zipBox/*.zip" />
+		</scp>
+		<sshexec failonerror="false" trust="true" host="${myHost}" username="${username}" password="${password}" command="rm -rf ${mule.apps.folder}/*subscriptionenterprise* " />
+		<sshexec failonerror="false" trust="true" host="${myHost}" username="${username}" password="${password}" command="cp /tmp/subscriptionDeploymentFolder/*.zip ${mule.apps.folder} -R" />
+
+	</target>
+
+
+
+</project>

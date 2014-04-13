@@ -1,0 +1,18 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title":"subscriptionSOI",
+    "description": "schema for a subscriptionSOI entry",
+    "type": "object",
+    "properties" : {
+    	"Name": {
+    		"type":"string"
+    	},
+    	"SOIPath": {
+    		"type":"string"
+    	},
+    	"SOIValues": {
+    		"type":"array"
+    		}
+    	},
+    	"required": [ "Name", "SOIPath", "SOIValues"]
+}

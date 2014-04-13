@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+<title>Subscription Services</title>
+
+<meta charset="utf-8" />
+
+<link href="css/reset.css" rel="stylesheet" type="text/css" />
+<link href="css/buttons.css" rel="stylesheet" type="text/css" />
+<link href="css/subscription.css" rel="stylesheet" type="text/css" />
+<link href="css/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.22.custom.min.js"></script>
+<script type="text/javascript" src="js/json2.js"></script>
+<script type="text/javascript" src="js/purl.js"></script>
+<script type="text/javascript" src="js/mymule.js"></script>
+<script type="text/javascript" src="subscription.js"></script>
+<script>
+	$(function() {
+		var tabs = $("#tabs").tabs();
+		tabs.find(".ui-tabs-nav").sortable({
+			axis : "x",
+			stop : function() {
+				tabs.tabs("refresh");
+			}
+		});
+	});
+	
+		
+	
+
+	 
+</script>
+
+</head>
+
+<body class="pagecss" onload="dojo.addOnLoad(onload);">
+
+<div id="example">
+
+</div>
+
+
+<form method="post">
+<div id="tabs">
+
+<ul>
+	<li><a href="#tabs-0">All Subscriptions</a></li>
+	<li><a href="#tabs-1">Subscription Details</a></li>
+	<li><a href="#tabs-2">All SOI Subscriptions</a></li>
+	<li><a href="#tabs-3">SOI Subscription Details</a></li>
+	<li><a href="#tabs-4">Upload Subscription SOI File</a></li>
+</ul>
+
+
+<div id="tabs-0">
+<div class="box1">
+
+<div class="main-title">
+
+<h3>All Subscriptions</h3>
+<div class="subtitle"><a href="javascript: createNewJSON();">create
+new JSON</a></div>
+</div>
+
+<div id="allsubscriptions"></div>
+</div>
+</div>
+
+
+
+
+<div id="tabs-1">
+<div class="box2">
+
+<div class="main-title">
+<div class="current-subscription"></div>
+<h3>Subscription Details</h3>
+<div class="subtitle"><a class="s-link0" href="#!"
+	onclick="javascript: $('#subscription-area').hide();$('#subscription-form').show();selectLink($(this));">Form
+Edit</a> | <a class="s-link1" href="#!"
+	onclick="$('#subscription-area').show();$('#subscription-form').hide();selectLink($(this));">Native
+JSON Edit</a></div>
+</div>
+
+<div id="subscription-form">
+<div id="subscription_details">
+<div id="subscription_details_wrapper"></div>
+<button class="skip minimal-margin" name="Save"
+	value="Save Subscription"
+	onclick="saveSubscriptionForm('subscription_details','subscription-area');return false;">Save
+Subscription</button>
+</div>
+</div>
+
+<div id="subscription-area"><textarea rows="20" cols="100"
+	id="theSubscription">
+</textarea>
+<button class="skip minimal-margin" name="Save"
+	value="Save Subscription"
+	onclick="saveSubscription(document.getElementById('theSubscription').value);return false;">Save
+Subscription</button>
+</div>
+</div>
+</div>
+
+
+
+
+<div id="tabs-2">
+<div class="box3">
+
+<div class="main-title">
+<h3>All SOI Subscriptions</h3>
+<div class="subtitle">(SOI Subscriptions are displayed only if a
+subscription contains a SOI list)</div>
+</div>
+
+<div id="allsubscriptionssoi"></div>
+</div>
+</div>
+
+
+
+
+<div id="tabs-3">
+<div class="box4">
+
+<div class="main-title">
+<div class="current-soi-subscription"></div>
+<h3>SOI Subscription Details</h3>
+<div class="subtitle"><a class="s-link0" href="#!"
+	onclick="javascript: $('#subscriptionsoi-area').hide();$('#subscriptionsoi-form').show();selectLink($(this));">Form
+Edit</a> | <a class="s-link1" href="#!"
+	onclick="$('#subscriptionsoi-area').show();$('#subscriptionsoi-form').hide();selectLink($(this));">Native
+JSON Edit</a></div>
+</div>
+
+<div id="subscriptionsoi-form">
+<div id="subscriptionsoi_details">
+<div id="subscriptionsoi_details_wrapper"></div>
+<button class="skip minimal-margin" name="Save"
+	value="Save Subscription"
+	onclick="saveSubscriptionForm('subscriptionsoi_details','subscriptionsoi-area');return false;">Save
+Subscription SOI</button>
+</div>
+</div>
+
+<div id="subscriptionsoi-area">
+<div id="bigsoiinfodiv"></div>
+<br>
+<br>
+<div id="downloadlinkdiv"></div>
+<br>
+<br>
+<textarea rows="20" cols="100" id="theSubscriptionsoi">
+</textarea>
+
+<button class="skip minimal-margin" name="Save"
+	value="Save Subscription"
+	onclick="saveSubscriptionSOI(document.getElementById('theSubscriptionsoi').value);return false;">Save
+Subscription SOI</button>
+
+
+
+</div>
+</div>
+</div>
+
+
+<div id="tabs-4">
+<div class="box5">
+<h3>SOI Subscription Upload</h3>
+<br />
+<br />
+<br />
+
+<h4>Please Upload the Subscription SOI Details..</h4>
+<br />
+<br />
+<br />
+<div id="formuploaddiv"></div>
+</div>
+</div>
+
+<p class="textCss">This application works best using Google Chrome
+as browser.</p>
+
+</div>
+</form>
+
+</body>
+</html>

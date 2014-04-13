@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:ajax="http://www.mulesoft.org/schema/mule/ajax"
+	xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core"
+	version="CE-3.3.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ajax http://www.mulesoft.org/schema/mule/ajax/current/mule-ajax.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd 
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/2.0/mule-mongo.xsd ">
+	<flow name="deleteSubscriptionSOI" doc:name="deleteSubscriptionSOI">
+		<ajax:inbound-endpoint channel="/deleteSubscriptionSOI"
+			responseTimeout="10000" doc:name="deleteSubscriptionSOI" />
+		<flow-ref name="deleteSubscriptionSOIFlow" doc:name="call deleteSubscriptionSOIFlow" />
+	</flow>
+	<flow name="deleteSubscriptionSOIFlow" doc:name="deleteSubscriptionSOIFlow" processingStrategy="synchronous">
+        <component doc:name="RemoveSubscriptionSOIs">
+            <spring-object bean="RemoveSubscriptionSOIs"/>
+        </component>
+<!--        <mongo:update-objects config-ref="Mongo_DB_subscriptions" collection="#[variable:_SOIPath]" query-ref="#[string:{&quot;SubscriptionMap&quot;:{ $in: [&quot;#[json:Name]&quot;]}}]" element-ref="#[string:{ $pull : {'SubscriptionMap':'#[variable:Name]'} } ]" doc:name="delete soi item in soi subscriptionMap"/>-->
+<!--        <mongo:remove-objects config-ref="Mongo_DB_subscriptions" collection="#[variable:_SOIPath]" query-ref="#[string: {'SubscriptionMap' : { $size  : 0 }}  ] " doc:name="remove all the subscriptionsMap with 0 SOIitem"/>-->
+<!--		<mongo:update-objects config-ref="Mongo_DB_subscriptions"-->
+<!--			collection="${mongodb.subscriptions.collection}" query-ref="#[string:{'Name':'#[json:Name]'}]"-->
+<!--			multi="false" upsert="true" doc:name="remove SOIPath from SOICollection in  subscription" element-ref="#[string:{ $pull : {'SOICollections':'#[variable:_SOIPath]'} } ]"/>-->
+	</flow>
+
+	<flow name="deleteSubscriptionSOIHttp" doc:name="deleteSubscriptionSOIHttp" processingStrategy="synchronous">
+		<http:inbound-endpoint exchange-pattern="request-response"
+			host="localhost" port="8081" path="subscription/deleteSubscriptionSOI"
+			doc:name="HTTP" />
+        <object-to-string-transformer doc:name="Object to String"/>
+        <flow-ref name="deleteSubscriptionSOIFlow" doc:name="call deleteSubscriptionSOIFlow" />
+        <object-to-string-transformer doc:name="Object to String"/>
+	</flow>
+</mule>

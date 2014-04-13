@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:servlet="http://www.mulesoft.org/schema/mule/servlet"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ajax="http://www.mulesoft.org/schema/mule/ajax"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core"
+	version="CE-3.3.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ajax http://www.mulesoft.org/schema/mule/ajax/current/mule-ajax.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+http://www.mulesoft.org/schema/mule/servlet http://www.mulesoft.org/schema/mule/servlet/current/mule-servlet.xsd 
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd 
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/2.0/mule-mongo.xsd ">
+	<flow name="uploadFileTosaveSubscriptionSOI" doc:name="uploadFileTosaveSubscriptionSOI"
+		doc:description="it will load a file with SOI format into a SOI subscription.
+
+Subscription must exist.">
+		<file:inbound-endpoint path="${file.upload.folder}"
+			moveToPattern="#[header:originalFilename]_#[function:datestamp:dd-MM-yy]_#[function:systime].backup"
+			moveToDirectory="${file.upload.folder}/backup" pollingFrequency="${file.upload.pooling.frequency.in.ms}"
+			responseTimeout="10000" connector-ref="FileUploadForSOIConnector"
+			doc:name="read file with SOI subscription" />
+		<byte-array-to-object-transformer
+			doc:name="Byte Array to Object" />
+			<flow-ref name="saveSubscriptionSOIFlow" doc:name="call save SOI" />
+	</flow>
+	<flow name="HTTPUploadFormFlow" doc:name="HTTPUploadFormFlow" processingStrategy="synchronous">
+		<http:inbound-endpoint exchange-pattern="request-response"
+			host="localhost" port="8081" path="uploadFile" doc:name="HTTP" />
+		<component class="com.citi.isg.notification.soi.FileExtractor"
+			doc:name="FileExtractor" />
+        <flow-ref name="saveSubscriptionSOIFlow" doc:name="call save SOI" />
+        <http:response-builder status="302" contentType="text/html" doc:name="HTTP Response Builder">
+            <http:location value="http://#[variable:hostnameHeader]:8181/subscription/successful_upload.html?replyMsg=#[headers:replyMsg]"/>
+        </http:response-builder>
+
+	</flow>
+	<flow name="uploadSubscriptionSOI" doc:name="uploadSubscriptionSOI">
+		<ajax:inbound-endpoint channel="/uploadSubscriptionSOI"
+			responseTimeout="10000" doc:name="uploadSubscriptionSOI" />
+		<component class="com.citi.isg.notification.soi.FileExtractor"
+			doc:name="FileExtractor" />
+		<flow-ref name="saveSubscriptionSOIFlow" doc:name="call save SOI" />
+		
+	</flow>
+</mule>
